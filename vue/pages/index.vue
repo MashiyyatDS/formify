@@ -1,8 +1,5 @@
 <template>
-	<h1>Working</h1>
-
-	<input type="text" placeholder="Enter your first name" v-model="value" />
-	<span>{{ errorMessage }}</span>
+	<h1>Working...</h1>
 </template>
 
 <script setup lang="ts">
@@ -26,7 +23,18 @@ configure({
 })
 
 const { handleSubmit } = useForm({})
-const { errorMessage, value } = useField('first_name', 'required')
+const { errorMessage, value: firstName } = useField<string>('first_name', 'required')
+const { errorMessage: cityErrorMessage, value: city } = useField('city', 'required')
 
-console.log(parameter)
+const submitForm = handleSubmit((value) => {
+	console.log(value)
+})
+
+const cities = ref([
+	{ name: 'New York', code: 'NY' },
+	{ name: 'Rome', code: 'RM' },
+	{ name: 'London', code: 'LDN' },
+	{ name: 'Istanbul', code: 'IST' },
+	{ name: 'Paris', code: 'PRS' },
+])
 </script>

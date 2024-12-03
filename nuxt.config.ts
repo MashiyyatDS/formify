@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
 	compatibilityDate: '2024-11-01',
 	devtools: { enabled: true },
-	modules: ['@vee-validate/nuxt'],
+	modules: ['@vee-validate/nuxt', '@nuxt/eslint'],
 	veeValidate: {
 		autoImports: true,
 	},
@@ -11,4 +11,11 @@ export default defineNuxtConfig({
 		autoImport: true,
 	},
 	srcDir: './vue',
+	postcss: {
+		plugins: {
+			tailwindcss: {},
+			autoprefixer: {},
+		},
+	},
+	css: ['~/assets/css/main.css'],
 })
