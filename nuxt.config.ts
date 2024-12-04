@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 		autoImport: true,
 	},
 	srcDir: './vue',
+	plugins: ['~/plugins/vuetify'],
 	postcss: {
 		plugins: {
 			tailwindcss: {},
@@ -18,4 +19,5 @@ export default defineNuxtConfig({
 		},
 	},
 	css: ['~/assets/css/main.css'],
+	ssr: false,
 })

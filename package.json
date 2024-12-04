@@ -10,6 +10,7 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
+		"@mdi/font": "^7.4.47",
 		"@nuxt/eslint": "0.7.2",
 		"@vee-validate/i18n": "^4.14.7",
 		"@vee-validate/nuxt": "^4.14.7",
@@ -23,6 +24,8 @@
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.49",
 		"tailwindcss": "^3.4.15",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.2",
+		"vite-plugin-vuetify": "^2.0.4",
+		"vuetify": "^3.7.5"
 	}
 }
