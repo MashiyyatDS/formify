@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
 	compatibilityDate: '2024-11-01',
 	devtools: { enabled: true },
-	modules: ['@vee-validate/nuxt', '@nuxt/eslint'],
+	modules: ['@vee-validate/nuxt', '@nuxt/eslint', '@nuxt/ui', '@nuxt/fonts'],
 	veeValidate: {
 		autoImports: true,
 	},
@@ -11,7 +11,6 @@ export default defineNuxtConfig({
 		autoImport: true,
 	},
 	srcDir: './vue',
-	plugins: ['~/plugins/vuetify'],
 	postcss: {
 		plugins: {
 			tailwindcss: {},
@@ -20,4 +19,12 @@ export default defineNuxtConfig({
 	},
 	css: ['~/assets/css/main.css'],
 	ssr: false,
+	fonts: {
+		families: [
+			// do not resolve this font with any provider from `@nuxt/fonts`
+			{ name: 'Custom Font', provider: 'none' },
+			// only resolve this font with the `google` provider
+			{ name: 'My Font Family', provider: 'google' },
+		],
+	},
 })

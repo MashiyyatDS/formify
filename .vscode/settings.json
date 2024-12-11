@@ -1,3 +1,9 @@
 {
-	"cSpell.words": ["Formify"]
+	"cSpell.words": ["Formify", "Slideover"]
+	//"files.associations": {
+	//	"*.css": "tailwindcss"
+	//},
+	//"editor.quickSuggestions": {
+	//	"strings": true
+	//}
 }

@@ -1,47 +1,91 @@
 <template>
-	<v-card variant="flat" class="rounded-lg border-thin m-5">
-		<v-card-title>Formify</v-card-title>
+	{{ tab }}
+	<UTabs v-model="tab" :items="tabs" class="w-full">
+		<template #item="{ item }">
+			<div v-if="item.key === 'Form'">
+				<UCard
+					:ui="{
+						header: { background: 'dark:bg-gray-800', padding: 'p-3 sm:p-3' },
+						footer: { padding: 'p-1 sm:p-1', background: 'dark:bg-gray-800' },
+						body: { background: 'dark:bg-gray-800' },
+						divide: 'divide-y divide-gray-100 dark:divide-gray-700',
+					}">
+					<template #header>
+						<span>Formify {{ useColorMode().value }}</span>
+					</template>
 
-		<v-divider />
+					<div>
+						<template v-if="formify.inputs">
+							<div class="grid grid-cols-12 gap-1">
+								<div v-for="(formifyInput, key) in formify.inputs" :key="key" :class="`col-span-12 sm:col-span-6`">
+									<slot :name="`field-${key}`">
+										<FormifyInput
+											v-if="!$slots[`field-${key}`]"
+											:model-value="formifyInput"
+											:field-name="`${key}`"
+											class="mb-3" />
+									</slot>
+								</div>
+							</div>
+						</template>
+					</div>
 
-		<v-card-text>
-			<template v-if="formify.inputs">
-				<div v-for="(formifyInput, key) in formify.inputs" :key="key">
-					<FormifyInput :model-value="formifyInput" :field-name="`${key}`" class="mb-5" />
-				</div>
-			</template>
+					<template #footer>
+						<UButton @click="resetForm" label="Reset" class="m-1" />
 
-			<template v-if="formify.forms">
-				<FormifyForm v-for="(form, key) in formify.forms" :key="key" :model-value="form" :form-name="`${key}`" />
-			</template>
-		</v-card-text>
+						<UButton @click="submitForm" label="Save" class="m-1" />
+					</template>
+				</UCard>
 
-		<v-divider />
+				{{ errors }}
+			</div>
 
-		<v-card-actions>
-			<v-spacer />
-			<v-btn @click="submitForm" text="Submit" class="text-capitalize bg-blue-darken-1" size="small" />
-		</v-card-actions>
-	</v-card>
+			<div v-if="item.key === 'Confirmation'">
+				<small>
+					<pre>{{ payload }}</pre>
+				</small>
+			</div>
+		</template>
+	</UTabs>
 </template>
 
 <script setup lang="ts">
-const { handleSubmit, resetForm, setFieldValue, setValues } = useForm({
-	initialValues: {
-		first_name: 'Mashiyyat',
-		address: {
-			id: 1,
-			city: 'San Jose del Monte',
-			municipality: 'Bulacan',
-			lot: 39,
-			block: 35,
-		},
-	},
-})
-
 const formify = defineModel<Formify>({ required: true })
 
-const submitForm = handleSubmit((value) => {
-	console.log(value)
+const emit = defineEmits(['formSubmitted'])
+
+const { handleSubmit, resetForm, values, errors } = useForm({
+	initialValues: formify.value?.initialValue,
+	keepValuesOnUnmount: true,
 })
+
+const tab = ref(0)
+const tabs = [
+	{
+		key: 'Form',
+		label: 'Form',
+		icon: 'mdi-pencil',
+		content: 'This is the content shown for Tab1',
+	},
+	{
+		key: 'Confirmation',
+		label: 'Confirmation',
+		icon: 'i-heroicons-arrow-down-tray',
+		content: 'And, this is the content for Tab2',
+	},
+]
+
+const submitForm = handleSubmit((value) => {
+	emit('formSubmitted', {
+		...(formify.value?.initialValue ?? {}),
+		...value,
+	})
+
+	tab.value = 1
+})
+
+const payload = computed(() => ({
+	...(formify.value?.initialValue ?? {}),
+	...values,
+}))
 </script>

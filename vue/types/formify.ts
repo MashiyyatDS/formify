@@ -4,6 +4,7 @@ export interface Formify<T = string> {
 	appends?: {
 		[A: string]: Formify<T> & { append?: Formify<T>[]; prepend?: Formify<T>[] }
 	}
+	initialValue?: T extends string ? never : { [K in keyof T]?: T[K] }
 }
 
 export interface FormifyInput {

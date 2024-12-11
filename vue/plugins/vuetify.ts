@@ -13,16 +13,15 @@ import { VDateInput } from 'vuetify/labs/VDateInput'
 import { VPullToRefresh } from 'vuetify/labs/VPullToRefresh'
 
 export default defineNuxtPlugin((app) => {
-	const vuetify = createVuetify({
-		components: {
-			...components,
-			VTimePicker,
-			VNumberInput,
-			VDateInput,
-			VPullToRefresh,
-		},
-		directives,
-	})
-
-	app.vueApp.use(vuetify)
+	//const vuetify = createVuetify({
+	//	components: {
+	//		...components,
+	//		VTimePicker,
+	//		VNumberInput,
+	//		VDateInput,
+	//		VPullToRefresh,
+	//	},
+	//	directives,
+	//})
+	//app.vueApp.use(vuetify)
 })

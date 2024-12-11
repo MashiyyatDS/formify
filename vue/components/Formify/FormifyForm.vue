@@ -8,6 +8,10 @@
 					<FormifyInput :model-value="formifyInput" :field-name="`${formName}.${key}`" class="mb-5" />
 				</div>
 			</template>
+
+			<template v-if="formify.forms">
+				<FormifyForm v-for="(form, key) in formify.forms" :key="key" :model-value="form" :form-name="`${formName}.${key}`" />
+			</template>
 		</v-card-text>
 	</v-card>
 </template>
