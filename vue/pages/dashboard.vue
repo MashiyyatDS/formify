@@ -5,7 +5,7 @@
 			header: {
 				background: 'dark:bg-gray-800',
 				padding: 'p-2 sm:p-2',
-				base: 'rounded-t-lg dark:bg-gray-800 border-white items-center flex gap-1',
+				base: 'rounded-t-lg dark:bg-gray-800 border-white items-center flex gap-1 justify-end',
 			},
 			footer: { padding: 'p-1 sm:p-1', background: 'dark:bg-gray-800', base: 'rounded-b-lg d-flex justify-center' },
 			body: { background: 'dark:bg-gray-800', padding: 'p-0 sm:p-0' },
@@ -20,7 +20,24 @@
 				<UButton icon="material-symbols:filter-list" size="xs" square />
 			</UTooltip>
 
-			<UInput placeholder="Search here..." />
+			<UPopover>
+				<UTooltip text="Download" :popper="{ placement: 'top' }">
+					<UButton icon="material-symbols:download-2-rounded" size="xs" square />
+				</UTooltip>
+
+				<template #panel>
+					<div class="p-2 gap-2 flex">
+						<UTooltip text="PDF" :popper="{ placement: 'top' }">
+							<UButton icon="streamline:convert-pdf-2-solid" size="xs" square />
+						</UTooltip>
+						<UTooltip text="Excel" :popper="{ placement: 'top' }">
+							<UButton icon="ri:file-excel-2-fill" size="xs" square />
+						</UTooltip>
+					</div>
+				</template>
+			</UPopover>
+
+			<UInput placeholder="Search here..." class="w-[250px]" />
 		</template>
 
 		<UTable
@@ -28,9 +45,23 @@
 			:rows="people"
 			:ui="{
 				th: { size: 'text-xs', padding: 'p-2' },
-				tr: { base: 'dark:hover:bg-gray-700 hover:bg-gray-100 cursor-pointer' },
-				td: { base: 'whitespace-nowrap ', padding: 'p-2', color: 'text-gray-500 dark:text-gray-400', size: 'text-xs' },
-			}" />
+				tr: { base: 'dark:hover:bg-gray-700 hover:bg-gray-100 cursor-pointer gap-1' },
+				td: { base: 'whitespace-nowrap ', padding: 'p-1', color: 'text-gray-500 dark:text-gray-400', size: 'text-xs' },
+			}">
+			<template #actions-data>
+				<UTooltip text="Edit" :popper="{ placement: 'top' }" class="ml-1">
+					<UButton icon="material-symbols:edit" size="xs" square />
+				</UTooltip>
+
+				<UTooltip text="Delete" :popper="{ placement: 'top' }" class="ml-1">
+					<UButton icon="material-symbols:delete-rounded" size="xs" square />
+				</UTooltip>
+
+				<UTooltip text="Logs" :popper="{ placement: 'top' }" class="ml-1">
+					<UButton icon="material-symbols:clinical-notes" size="xs" square />
+				</UTooltip>
+			</template>
+		</UTable>
 
 		<template #footer>
 			<UPagination
@@ -46,11 +77,13 @@
 </template>
 
 <script setup lang="ts">
+import type { TableColumn } from '#ui/types'
+
 const page = ref(1)
 
 const items = ref(Array(55))
 
-const columns = [
+const columns = ref<TableColumn[]>([
 	{
 		key: 'id',
 		label: 'ID',
@@ -68,75 +101,24 @@ const columns = [
 		label: 'Email',
 	},
 	{
-		key: 'role',
+		key: 'actions',
+		label: 'Actions',
 	},
-]
+])
 
-const people = [
-	{
-		id: 1,
-		name: 'Lindsay Walton',
-		title: 'Front-end Developer',
-		email: 'lindsay.walton@example.com',
-		role: 'Member',
-	},
-	{
-		id: 2,
-		name: 'Courtney Henry',
-		title: 'Designer',
-		email: 'courtney.henry@example.com',
-		role: 'Admin',
-	},
-	{
-		id: 3,
-		name: 'Tom Cook',
-		title: 'Director of Product',
-		email: 'tom.cook@example.com',
-		role: 'Member',
-	},
-	{
-		id: 4,
-		name: 'Whitney Francis',
-		title: 'Copywriter',
-		email: 'whitney.francis@example.com',
-		role: 'Admin',
-	},
-	{
-		id: 5,
-		name: 'Leonard Krasner',
-		title: 'Senior Designer',
-		email: 'leonard.krasner@example.com',
-		role: 'Owner',
-	},
-	{
-		id: 6,
-		name: 'Floyd Miles',
-		title: 'Principal Designer',
-		email: 'floyd.miles@example.com',
-		role: 'Member',
-	},
-	{
-		id: 4,
-		name: 'Whitney Francis',
-		title: 'Copywriter',
-		email: 'whitney.francis@example.com',
-		role: 'Admin',
-	},
-	{
-		id: 5,
-		name: 'Leonard Krasner',
-		title: 'Senior Designer',
-		email: 'leonard.krasner@example.com',
-		role: 'Owner',
-	},
-	{
-		id: 6,
-		name: 'Floyd Miles',
-		title: 'Principal Designer',
-		email: 'floyd.miles@example.com',
-		role: 'Member',
-	},
-]
+type People = {
+	id: number
+	name: string
+	title: string
+	email: string
+	role: string
+}
+
+const { data: people } = await useAsyncData('get-people', async () => {
+	const response = await $fetch(`https://retoolapi.dev/eLqmml/data`)
+
+	return response
+})
 
 definePageMeta({
 	layout: 'default',

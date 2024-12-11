@@ -29,6 +29,8 @@
 		</div>
 	</aside>
 
+	<NuxtLoadingIndicator />
+
 	<div class="sm:ml-64">
 		<UCard class="rounded-none bg-gray-800" :ui="{ header: { padding: 'p-2 sm:p-2' } }">
 			<template #header>
