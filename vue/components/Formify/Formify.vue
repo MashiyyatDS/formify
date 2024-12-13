@@ -1,5 +1,4 @@
 <template>
-	{{ tab }}
 	<UTabs v-model="tab" :items="tabs" class="w-full">
 		<template #item="{ item }">
 			<div v-if="item.key === 'Form'">
@@ -36,8 +35,6 @@
 						<UButton @click="submitForm" label="Save" class="m-1" />
 					</template>
 				</UCard>
-
-				{{ errors }}
 			</div>
 
 			<div v-if="item.key === 'Confirmation'">

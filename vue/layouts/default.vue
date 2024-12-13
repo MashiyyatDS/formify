@@ -1,4 +1,5 @@
 <template>
+	<!--<UApp>-->
 	<aside
 		id="default-sidebar"
 		class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full border-r dark:border-gray-600"
@@ -8,7 +9,7 @@
 			<UCard
 				class="flex flex-col flex-1 rounded-none border-0 h-[100%]"
 				:ui="{
-					body: { base: 'flex-1 dark:text-white', padding: 'px-2', background: 'dark:bg-gray-800' },
+					body: { base: 'flex-1 dark:text-white', padding: 'px-1', background: 'dark:bg-gray-800' },
 					divide: 'divide-y divide-gray-100 dark:divide-gray-700',
 					header: { base: 'dark:text-white', padding: 'p-3 sm:p-3', background: 'dark:bg-gray-800' },
 				}">
@@ -54,6 +55,7 @@
 
 		<NuxtPage />
 	</div>
+	<!--</UApp>-->
 </template>
 
 <script setup lang="ts">
