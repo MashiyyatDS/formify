@@ -1,11 +1,31 @@
 <template>
-	<!--<div class="grid grid-cols-12 gap-1 p-3">
-		<div class="lg:col-span-4 col-span-12">
-			<Formify @form-submitted="submitForm" v-model="sampleForm" />
-		</div>
-	</div>-->
+	<UCard :ui="{ footer: 'p-2 sm:p-2', header: 'p-2 sm:p-2' }" class="m-5">
+		<template #header>
+			<span>Sample Form</span>
+		</template>
 
-	<h1 class="sample-text">Hello World!!!!!!!</h1>
+		<div class="p-1">
+			<UStepper ref="stepper" :items="items">
+				<template #content="{ item }">
+					<span>{{ item }}</span>
+				</template>
+			</UStepper>
+
+			<div class="flex gap-2 justify-between mt-4">
+				<UButton @click="stepper?.prev()" leading-icon="i-lucide-arrow-left" :disabled="!stepper?.hasPrev"> Prev </UButton>
+
+				<div class="flex gap-1">
+					<UButton @click="stepper?.next()" v-if="stepper?.hasNext" trailing-icon="i-lucide-arrow-right" label="Next" />
+
+					<UButton @click="stepper?.next()" v-if="!stepper?.hasNext" trailing-icon="material-symbols:save-rounded" label="Save" />
+				</div>
+			</div>
+		</div>
+
+		<template #footer>
+			<UButton label="Save" />
+		</template>
+	</UCard>
 </template>
 
 <script setup lang="ts">
@@ -97,9 +117,24 @@
 //	},
 //})
 
-definePageMeta({
-	layout: 'default',
-})
+const items = ref([
+	{
+		title: 'Form',
+		description: 'Add your address here',
+		icon: 'i-lucide-house',
+	},
+	{
+		title: 'Attachments',
+		description: 'Add attachments inside your form.',
+		icon: 'material-symbols:upload-file-rounded',
+	},
+	{
+		title: 'Confirmation',
+		description: 'Form Confirmation.',
+		icon: 'material-symbols:list-alt-check-rounded',
+	},
+])
+const stepper = useTemplateRef('stepper')
 
 useHead({
 	title: 'Home',

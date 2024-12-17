@@ -14,25 +14,44 @@
 			</template>
 
 			<div class="p-0">
-				<USelectMenu
-					v-model="selected"
-					:options="people"
-					searchable-lazy
-					searchable
-					placeholder="Select People"
-					searchable-placeholder="Search People here..." />
+				<UFormGroup :error="errorMessage">
+					<USelectMenu
+						v-model="selectedPeople"
+						:options="people"
+						searchable-lazy
+						searchable
+						trailing
+						multiple
+						placeholder="Select People"
+						searchable-placeholder="Search People here..." />
+				</UFormGroup>
 			</div>
 
 			<template #footer>
-				<UButton @click="modal = false" label="Close" />
+				<UButton @click=";[(modal = false), resetForm()]" label="Close" />
 
-				<UButton @click="modal = false" label="Save" />
+				<UButton @click="submitForm" label="Save" />
 			</template>
 		</UCard>
 	</UModal>
 </template>
 
 <script setup lang="ts">
+import { defineRule, configure } from 'vee-validate'
+import { required } from '@vee-validate/rules'
+import { localize } from '@vee-validate/i18n'
+
+defineRule('required', required)
+configure({
+	generateMessage: localize('en', {
+		fields: {
+			selectedPeople: {
+				required: 'Please select a valid people',
+			},
+		},
+	}),
+})
+
 const modal = ref(false)
 
 const people = [
@@ -48,9 +67,12 @@ const people = [
 	'Emil Schaefer',
 ]
 
-const selected = ref(null)
+const { handleSubmit, resetForm } = useForm({})
+const { value: selectedPeople, errorMessage } = useField<string[]>('selectedPeople', 'required')
 
-function searchPeople() {
-	console.log('Working...')
-}
+const submitForm = handleSubmit((value) => {
+	console.log(value)
+
+	resetForm()
+})
 </script>
