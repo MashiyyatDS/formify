@@ -4,12 +4,22 @@
 
 		<UButton @click="useDialog()" label="Test Dialog" />
 
-		<DataForm />
+		<DataForm :data="formPayload">
+			<template #header="{ user }">
+				<small>
+					<pre>{{ user }}</pre>
+				</small>
+			</template>
+		</DataForm>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { Dialog } from '#components'
+import type { User } from '~/types/schema'
+
+const formPayload = reactive({
+	first_name: 'Mashiyyat',
+}) as User
 
 definePageMeta({
 	layout: 'default',

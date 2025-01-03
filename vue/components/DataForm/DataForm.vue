@@ -1,5 +1,7 @@
 <template>
 	<UCard :ui="{ body: 'p-1 sm:p-1' }">
+		<slot name="header" v-bind="{ user: data }" />
+
 		<div class="grid grid-cols-12 gap-1">
 			<div class="col-span-6">
 				<UCard :ui="{ body: 'p-3 sm:p-3 bg-green-600 rounded-lg' }">
@@ -22,4 +24,14 @@
 	</UCard>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts" generic="TOption">
+const props = withDefaults(defineProps<{ data: TOption }>(), {})
+
+const title = ref('Sample Title')
+
+const emit = defineEmits(['update:title'])
+
+defineSlots<{
+	header: (props: { user: TOption }) => void
+}>()
+</script>
